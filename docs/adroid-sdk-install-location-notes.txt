@@ -370,4 +370,14 @@ strings.xml
 http://www.androidhive.info/2014/07/android-speech-to-text-tutorial/
 check off line mode speech recognition
 
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb uninstall com.example
+.chit.myapplication
+Success
 
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb install app-release.a
+pk
+5075 KB/s (1402421 bytes in 0.269s)
+        pkg: /data/local/tmp/app-release.apk
+Success
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>
