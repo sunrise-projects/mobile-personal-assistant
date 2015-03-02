@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Sunrise App</string>
+
+    <string name="hello_world">Sunrise to go!</string>
+    <string name="action_settings">Settings</string>
+</resources>
