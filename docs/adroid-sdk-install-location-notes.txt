@@ -196,9 +196,6 @@ http://cmusphinx.sourceforge.net/wiki/tutorialandroid
 https://sites.google.com/site/opiatefuchs/home/pocketsphinxandroiddemo
 
 Android Speech To Text Tutorial
-http://www.androidhive.info/2014/07/android-speech-to-text-tutorial/
-
-http://www.androidhive.info/2014/07/android-speech-to-text-tutorial/
 
 http://www.androidhive.info/2014/07/android-speech-to-text-tutorial/
 http://www.tutorialspoint.com/android/android_text_to_speech.htm
@@ -369,5 +366,8 @@ strings.xml
 </resources>
 
 ==============================================================================================
+
+http://www.androidhive.info/2014/07/android-speech-to-text-tutorial/
+check off line mode speech recognition
 
 
