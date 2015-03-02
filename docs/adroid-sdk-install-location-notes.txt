@@ -125,3 +125,79 @@ http://developer.android.com/reference/android/os/AsyncTask.html
 http://android-developers.blogspot.in/2009/05/painless-threading.html
 
 http://developer.android.com/reference/android/os/AsyncTask.html
+
+
+------------------------
+
+table setup
+
+
+http://www.learn-android-easily.com/2013/05/table-layout-in-android.html
+
+-----------------------
+text to speech
+
+http://www.tutorialspoint.com/android/android_text_to_speech.htm
+
+http://code.tutsplus.com/tutorials/android-sdk-using-the-text-to-speech-engine--mobile-8540
+
+------------------------------------------
+
+handle button click
+
+http://stackoverflow.com/questions/3320115/android-onclicklistener-identify-a-button
+
+
+You will learn the way to do it, in an easy way, is:
+
+public class Mtest extends Activity {
+  Button b1;
+  Button b2;
+  public void onCreate(Bundle savedInstanceState) {
+    ...
+    b1 = (Button) findViewById(R.id.b1);
+    b2 = (Button) findViewById(R.id.b2);
+    b1.setOnClickListener(myhandler1);
+    b2.setOnClickListener(myhandler2);
+    ...
+  }
+  View.OnClickListener myhandler1 = new View.OnClickListener() {
+    public void onClick(View v) {
+      // it was the 1st button
+    }
+  };
+  View.OnClickListener myhandler2 = new View.OnClickListener() {
+    public void onClick(View v) {
+      // it was the 2nd button
+    }
+  };
+}
+Or, if you are working with just one clicklistener, you can do:
+
+View.OnClickListener myOnlyhandler = new View.OnClickListener() {
+  public void onClick(View v) {
+      switch(v.getId()) {
+        case R.id.b1:
+          // it was the first button
+          break;
+        case R.id.b2:
+          // it was the second button
+          break;
+      }
+  }
+}
+
+---------------------------------
+
+
+spynhx
+
+http://cmusphinx.sourceforge.net/wiki/tutorialandroid
+https://sites.google.com/site/opiatefuchs/home/pocketsphinxandroiddemo
+
+Android Speech To Text Tutorial
+http://www.androidhive.info/2014/07/android-speech-to-text-tutorial/
+
+
+
+
