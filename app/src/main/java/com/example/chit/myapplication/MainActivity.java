@@ -22,6 +22,19 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import java.util.Locale;
+import java.util.ArrayList;
+import java.util.Locale;
+
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.view.Menu;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener, OnInitListener {
 
@@ -29,6 +42,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private TextToSpeech myTTS;
 
     private int voiceInitStatus = 1;
+
+    private TextView txtSpeechInput;
+    private Button btnSpeak;
+    private final int REQ_CODE_SPEECH_INPUT = 100;
 
 
     @Override
@@ -46,6 +63,38 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
+
+        txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
+        btnSpeak = (Button)findViewById(R.id.btnSpeak);
+
+
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                promptSpeechInput();
+            }
+        });
+
+    }
+
+    /**
+     * Showing google speech input dialog
+     * */
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.speech_prompt));
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.speech_not_supported),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -80,6 +129,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     //act on result of TTS data check
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == MY_DATA_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
@@ -93,7 +143,24 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 startActivity(installTTSIntent);
             }
         }
-    }
+
+
+
+        if (requestCode == REQ_CODE_SPEECH_INPUT) {
+
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    txtSpeechInput.setText(result.get(0));
+
+                    myTTS.speak(txtSpeechInput.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+
+                }
+
+            }
+
+        }
 
     //setup TTS
     public void onInit(int initStatus) {
