@@ -1,0 +1,127 @@
+C:\Users\Chit\AppData\Local\Android\sdk
+
+
+Android SDK was installed to C:\Users\Chit\AppData\Local\Android\sdk
+Android SDK is up to date.
+Creating Android virtual device
+Android virtual device Nexus_5_API_21_x86 was successfully created
+
+C:\Program Files\Android\Android Studio\bin
+
+https://developer.android.com/training/basics/intents/result.html
+
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+	
+	
+	https://spring.io/guides/gs/gradle-android/
+	
+	http://stackoverflow.com/questions/2169294/how-to-add-manifest-permission-to-android-application
+	http://stackoverflow.com/questions/2206822/no-internet-on-android-emulator-why-and-how-to-fix
+	https://spring.io/guides/gs/gradle-android/
+	https://github.com/square/retrofit/blob/master/samples/github-client/src/main/java/com/example/retrofit/GitHubClient.java
+	http://square.github.io/retrofit/
+	https://developer.android.com/training/basics/intents/result.html
+	
+	
+To access these settings, open the Developer options in the system Settings. On Android 4.2 and higher, the Developer options screen is hidden by default. To make it visible, go to Settings > About phone and tap Build number seven times. Return to the previous screen to find Developer options at the bottom.
+
+
+driver
+
+http://www.samsung.com/us/support/owners/product/SM-T217SZKASPR
+
+
+C:\Users\Chit\AppData\Local\Android\sdk\platform-tools>
+C:\Users\Chit\AppData\Local\Android\sdk\platform-tools>adb.exe devices
+List of devices attached
+1dab97a6        device
+
+
+C:\Users\Chit\AppData\Local\Android\sdk\platform-tools>
+
+http://developer.android.com/tools/device.html
+
+
+--------------------------
+
+installing to app
+http://stackoverflow.com/questions/16622843/how-do-i-export-a-project-in-the-android-studio
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app
+	
+	
+	http://stackoverflow.com/questions/7076240/install-an-apk-file-from-command-prompt
+
+	adb -s emulator-5554 install myapp.apk
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb devices
+List of devices attached
+1dab97a6        device
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb install app-release.a
+pk
+5131 KB/s (1399515 bytes in 0.266s)
+        pkg: /data/local/tmp/app-release.apk
+Failure [INSTALL_FAILED_ALREADY_EXISTS]
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>
+
+after unstallling 
+
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb install app-release.a
+pk
+5138 KB/s (1399515 bytes in 0.265s)
+        pkg: /data/local/tmp/app-release.apk
+Failure [INSTALL_FAILED_ALREADY_EXISTS]
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>
+
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb install -r app-releas
+e.apk
+5890 KB/s (1399515 bytes in 0.232s)
+        pkg: /data/local/tmp/app-release.apk
+Failure [INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES]
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>
+
+adb uninstall com.example.testproj
+
+adb uninstall com.example.chit.myapplication
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2>adb uninstall com.example.chi
+t.myapplication
+Success
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2>adb uninstall com.example.chi
+t.myapplication
+Failure
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2>
+
+http://www.lombard.me/2013/09/how-to-fix-install-parse-failed.html
+
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb install -r app-releas
+e.apk
+4842 KB/s (1399515 bytes in 0.282s)
+        pkg: /data/local/tmp/app-release.apk
+Success
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>
+
+
+-----------------------------
+
+
+threading issue
+
+http://stackoverflow.com/questions/19266553/android-caused-by-android-os-networkonmainthreadexception
+
+http://developer.android.com/reference/android/os/AsyncTask.html
+
+http://android-developers.blogspot.in/2009/05/painless-threading.html
+
+http://developer.android.com/reference/android/os/AsyncTask.html
