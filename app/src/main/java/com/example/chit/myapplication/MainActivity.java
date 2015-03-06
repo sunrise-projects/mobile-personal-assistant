@@ -1,8 +1,13 @@
 package com.example.chit.myapplication;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.widget.TextView;
 import org.joda.time.LocalTime;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,23 +47,38 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private int MY_DATA_CHECK_CODE = 0;
     private TextToSpeech myTTS;
 
+    private MainActivity mySelf;
+
     private int voiceInitStatus = 1;
 
     private TextView txtSpeechInput;
     private Button btnSpeak;
     private final int REQ_CODE_SPEECH_INPUT = 100;
 
+    ClipboardManager.OnPrimaryClipChangedListener mPrimaryChangeListener = new ClipboardManager.OnPrimaryClipChangedListener() {
+        public void onPrimaryClipChanged() {
 
+            // this will be called whenever you copy something to the clipboard
+            playClipBoard();
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+
         setContentView(R.layout.activity_main);
 
-        Button speakButton = (Button)findViewById(R.id.increment);
+        Button speakButton = (Button)findViewById(R.id.btnSayWord);
         speakButton.setOnClickListener(this);
 
-        Button speakButton2 = (Button)findViewById(R.id.decrement);
+        Button speakButton2 = (Button)findViewById(R.id.btnRestClient);
         speakButton2.setOnClickListener(this);
+
+        Button speakButton3 = (Button)findViewById(R.id.btnSayClipboard);
+        speakButton3.setOnClickListener(this);
+
+
 
         //check for TTS data
         Intent checkTTSIntent = new Intent();
@@ -76,6 +97,32 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
         });
 
+        mySelf = this;
+
+        TextView tView = (TextView) findViewById(R.id.text_view);
+        tView.setMovementMethod(new ScrollingMovementMethod());
+
+        ClipboardManager clipboard = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboard.addPrimaryClipChangedListener(mPrimaryChangeListener);
+
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                //myTTS.stop();
+                //myTTS.playSilence(750, TextToSpeech.QUEUE_ADD, null);
+
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                playClipBoard();
+                return true;
+
+            default:
+
+                return super.dispatchKeyEvent(event);
+        }
     }
 
     /**
@@ -98,22 +145,39 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
 
+    private void playClipBoard() {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        //clipboard.setText("Text to copy");
+        //clipboard.getText();
+        ClipData data = clipboard.getPrimaryClip();
+        ClipData.Item item = data.getItemAt(0);
+        String itemStr = item.getText().toString();
 
+        TextView textView2 = (TextView) findViewById(R.id.text_view);
+        //textView2.setText("The current local time is: " + currentTime);
+        textView2.setText(itemStr);
+        textView2.setMovementMethod(new ScrollingMovementMethod());
+
+        myTTS.speak(itemStr, TextToSpeech.QUEUE_FLUSH, null);
+    }
     //respond to button clicks
     public void onClick(View v) {
 
         switch(v.getId()) {
-            case R.id.increment:
+            case R.id.btnSayWord:
                 //get the text entered
                 EditText enteredText = (EditText)findViewById(R.id.counterText);
                 String words = enteredText.getText().toString();
                 speakWords(words);
 
                 break;
-            case R.id.decrement:
-                // it was the second button
+            case R.id.btnRestClient:
+
                 new RestCallTask().execute();
 
+                break;
+            case R.id.btnSayClipboard:
+                playClipBoard();
                 break;
         }
 
@@ -187,7 +251,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         TextView textView2 = (TextView) findViewById(R.id.text_view);
         textView2.setText("The current local time is: " + currentTime);
 
-        new RestCallTask().execute();
+        //do this on button press
+        //new RestCallTask().execute();
 
 
     }
@@ -195,9 +260,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private class RestCallTask extends AsyncTask<URL, Integer, List<GitHubClient.Contributor>> {
         protected List<GitHubClient.Contributor> doInBackground(URL... urls) {
 
-            GitHubClient cl = new GitHubClient();
-            cl.getList();
-            return cl.getList();
+
+            try {
+                GitHubClient cl = new GitHubClient();
+                return cl.getList();
+            } catch (Exception e) {
+                Toast.makeText(mySelf, "Sorry!" + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            return Collections.EMPTY_LIST;
         }
 
         protected void onProgressUpdate(Integer... progress) {

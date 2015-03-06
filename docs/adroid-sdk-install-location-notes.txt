@@ -1,3 +1,85 @@
+3/6/2015
+
+
+C:\Users\Chit>cd C:\Users\Chit\AndroidStudioProjects\MyApplication2\app
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb uninstall com.example.chit.myapplication
+* daemon not running. starting it now on port 5037 *
+* daemon started successfully *
+- waiting for device -
+Success
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb uninstall com.example.chit.myapplication
+Failure
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb install app-release.apk
+6149 KB/s (1416359 bytes in 0.224s)
+        pkg: /data/local/tmp/app-release.apk
+Success
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>
+
+
+DEVICE SHELL COMMAND: pm uninstall com.example.chit.myapplication
+DEVICE SHELL COMMAND: pm install -r "/data/local/tmp/com.example.chit.myapplication"
+
+clipboard speak
+
+http://developer.android.com/reference/android/content/ClipData.html
+
+http://stackoverflow.com/questions/6651184/set-text-and-get-text-from-clipboard
+
+
+http://stackoverflow.com/questions/1748977/making-textview-scrollable-in-android
+
+http://stackoverflow.com/questions/8666744/android-how-to-textarea
+
+http://developer.android.com/reference/android/widget/LinearLayout.html#setWeightSum(float
+
+http://stackoverflow.com/questions/2796219/set-width-of-button-in-android
+
+http://www.mkyong.com/android/android-tablelayout-example/
+
+http://developer.android.com/reference/android/content/ClipData.Item.html
+
+http://stackoverflow.com/questions/6651184/set-text-and-get-text-from-clipboard
+
+http://stackoverflow.com/questions/6931359/how-to-listen-for-a-copy-in-android
+
+ClipDescription { text/html }
+
+force close
+
+https://trivedihardik.wordpress.com/2011/08/20/how-to-avoid-force-close-error-in-android/
+
+
+http://stackoverflow.com/questions/4233873/how-to-get-extra-data-from-intent-in-android
+
+
+http://stackoverflow.com/questions/6931359/how-to-listen-for-a-copy-in-android
+
+http://stackoverflow.com/questions/2367484/how-to-override-the-behavior-of-the-volume-buttons-in-an-android-application
+
+
+http://stackoverflow.com/questions/6931359/how-to-listen-for-a-copy-in-android
+
+
+http://stackoverflow.com/questions/4233873/how-to-get-extra-data-from-intent-in-android
+
+http://stackoverflow.com/questions/1748977/making-textview-scrollable-in-android
+
+http://stackoverflow.com/questions/8666744/android-how-to-textarea
+
+http://developer.android.com/reference/android/widget/LinearLayout.html#setWeightSum(float
+
+http://www.mkyong.com/android/android-tablelayout-example/
+
+http://stackoverflow.com/questions/6651184/set-text-and-get-text-from-clipboard
+
+
+
+=====================================
+
 C:\Users\Chit\AppData\Local\Android\sdk
 
 
@@ -370,12 +452,18 @@ strings.xml
 http://www.androidhive.info/2014/07/android-speech-to-text-tutorial/
 check off line mode speech recognition
 
-C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb uninstall com.example
-.chit.myapplication
+http://stackoverflow.com/questions/14940657/android-speech-recognition-as-a-service-on-android-4-1-4-2/14950616#14950616
+
+http://stackoverflow.com/questions/22018232/android-v-ics-continuous-speech-recognition-error-network-timeout
+
+http://stackoverflow.com/questions/14940657/android-speech-recognition-as-a-service-on-android-4-1-4-2
+
+
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb uninstall com.example.chit.myapplication
 Success
 
-C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb install app-release.a
-pk
+C:\Users\Chit\AndroidStudioProjects\MyApplication2\app>adb install app-release.apk
+
 5075 KB/s (1402421 bytes in 0.269s)
         pkg: /data/local/tmp/app-release.apk
 Success
