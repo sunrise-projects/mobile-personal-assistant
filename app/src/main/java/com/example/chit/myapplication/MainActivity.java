@@ -42,6 +42,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chit.myapplication.com.example.chit.myapplication.model.WundergroundTask;
+
 public class MainActivity extends ActionBarActivity implements View.OnClickListener, OnInitListener {
 
     private int MY_DATA_CHECK_CODE = 0;
@@ -220,6 +222,23 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                     myTTS.speak(txtSpeechInput.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
 
+                    String textInput = result.get(0).toString();
+                    if(textInput.startsWith("what") && textInput.contains("time")) {
+                        speakWords(Utils.getCurrentTime());
+                    }
+
+                    if(textInput.startsWith("what") && textInput.contains("weather") && textInput.contains("today")) {
+                        new WundergroundTask.TodayForecast(myTTS).execute();
+                    }
+
+                    if(textInput.startsWith("what") && textInput.contains("weather") && textInput.contains("week")) {
+                        new WundergroundTask.WeekForecast(myTTS).execute();
+                    }
+
+
+
+
+
                 }
 
             }
@@ -289,11 +308,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             if (voiceInitStatus == TextToSpeech.SUCCESS) {
                 myTTS.speak(a.toString(), TextToSpeech.QUEUE_FLUSH, null);
             }
-
-
-
-
-
         }
     }
 

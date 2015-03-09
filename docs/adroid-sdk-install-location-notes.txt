@@ -1,3 +1,41 @@
+3/8/2015
+
+to create a json object
+http://jsonviewer.stack.hu/
+
+gson parse
+http://java.dzone.com/articles/deserializing-json-java-object
+
+all cities
+http://www.citygridmedia.com/developer/blog/csv-download-of-cities-in-the-us-by-state/
+
+http://square.github.io/retrofit/
+
+http://en.wikipedia.org/w/api.php?action=query&titles=San_Francisco&prop=images&imlimit=20&format=jsonfm
+
+http://en.wikipedia.org/w/api.php?action=query&titles=San_Francisco&prop=images&rawcontinue=&imlimit=20&format=jsonfm
+
+
+
+3/7/2015
+
+template
+
+navigation template
+http://blog.evizija.si/android-layout/
+
+software digital store
+
+http://www.binpress.com/
+
+2 way ssl
+
+https://developer.salesforce.com/page/Making_Authenticated_Web_Service_Callouts_Using_Two-Way_SSL
+
+http://forum.xda-developers.com/showthread.php?t=781455&page=19
+
+
+
 3/6/2015
 
 
