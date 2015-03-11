@@ -91,22 +91,46 @@
             android:text="..."
             android:id="@+id/txtSpeechInput"
             android:layout_column="1"
-            android:layout_span="2"
+            android:layout_span="3"
             />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Listen"
-            android:id="@+id/btnSpeak"
-            android:layout_below="@+id/txtSpeechInput"
-            android:layout_column="2"
-        />
     </TableRow>
 
     <!-- just draw a  line -->
     <View
         android:layout_height="2dip"
         android:background="#ff2843ff" />
+
+    <!-- 3 columns -->
+    <TableRow
+        android:id="@+id/tableRow5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Listen"
+            android:id="@+id/btnSpeak"
+            android:layout_column="1"
+            />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Picker"
+            android:id="@+id/pickerBtn"
+            android:layout_column="2"
+            />
+
+    </TableRow>
+
+    <!-- just draw a  line -->
+    <View
+        android:layout_height="2dip"
+        android:background="#ff2843ff" />
+
 
     <TableRow
         android:id="@+id/tableRow4"
@@ -146,9 +170,30 @@
             android:maxLines="10"
             android:layout_marginTop="10dp" />
 
+    </TableRow>
+
+
+    <!-- 1 column1 -->
+    <TableRow
+        android:id="@+id/tableRow6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <TextView android:text="@string/hello_world"
+            android:id="@+id/text_view2"
+            android:layout_span="3"
+            android:layout_width="wrap_content"
+            android:layout_height="300px"
+            android:textColor="#f00"
+            android:scrollbars="vertical"
+            android:maxLines="10"
+            android:layout_marginTop="10dp" />
+
 
     </TableRow>
 
 </TableLayout>
+
 
 </RelativeLayout>

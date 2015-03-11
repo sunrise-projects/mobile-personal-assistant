@@ -1,3 +1,26 @@
+3/9/2015
+
+file picker
+https://developer.android.com/guide/topics/providers/document-provider.html
+
+ActivityNotFoundException No activity found to handle the intent
+android.intent.action.OPEN_DOCUMENT
+
+
+http://www.techotopia.com/index.php/An_Android_Storage_Access_Framework_Example
+
+http://www.dreamincode.net/forums/topic/190013-creating-simple-file-chooser/
+
+http://stackoverflow.com/questions/21045091/no-activity-found-to-handle-intent-android-intent-action-open-document
+
+file size mimetype
+
+https://developer.android.com/training/secure-file-sharing/retrieve-info.html
+
+http://stackoverflow.com/questions/7915624/is-it-possible-to-have-two-table-layout-in-android-ui
+http://stackoverflow.com/questions/2710793/what-is-the-equivalent-of-colspan-in-an-android-tablelayout
+
+
 3/8/2015
 
 to create a json object

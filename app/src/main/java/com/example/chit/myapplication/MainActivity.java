@@ -3,7 +3,9 @@ package com.example.chit.myapplication;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.ParcelFileDescriptor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -16,6 +18,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import org.joda.time.LocalTime;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +51,8 @@ import android.widget.Toast;
 import com.example.chit.myapplication.com.example.chit.myapplication.model.WundergroundTask;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener, OnInitListener {
+
+    private static final int READ_REQUEST_CODE = 42;
 
     private int MY_DATA_CHECK_CODE = 0;
     private TextToSpeech myTTS;
@@ -106,6 +114,20 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         ClipboardManager clipboard = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboard.addPrimaryClipChangedListener(mPrimaryChangeListener);
+
+        Button pickerBtn = (Button)findViewById(R.id.pickerBtn);
+        pickerBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                //intent.setType("image/*");
+                intent.setType("*/*");
+                startActivityForResult(intent, READ_REQUEST_CODE);
+            }
+        });
+
 
     }
 
@@ -234,14 +256,31 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     if(textInput.startsWith("what") && textInput.contains("weather") && textInput.contains("week")) {
                         new WundergroundTask.WeekForecast(myTTS).execute();
                     }
-
-
-
-
-
                 }
 
             }
+
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri uri = null;
+            if (data != null) {
+                uri = data.getData();
+                TextView textView1 = (TextView) findViewById(R.id.text_view2);
+
+                //String mimeType = getContentResolver().getType(uri);
+                //textView1.setText(mimeType);
+
+                try {
+                    String content = readFileContent(uri);
+                    textView1.setText(content);
+                    speakWords(content);
+                } catch (IOException e) {
+                    textView1.setText("Error: "+e.getMessage());
+                }
+
+
+
+            }
+        }
 
         }
 
@@ -257,6 +296,23 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         else if (initStatus == TextToSpeech.ERROR) {
             Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private String readFileContent(Uri uri) throws IOException {
+
+        InputStream inputStream =
+                getContentResolver().openInputStream(uri);
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(
+                        inputStream));
+        StringBuilder stringBuilder = new StringBuilder();
+        String currentline;
+        while ((currentline = reader.readLine()) != null) {
+            //stringBuilder.append(currentline + "\n");
+            stringBuilder.append(currentline + "");
+        }
+        inputStream.close();
+        return stringBuilder.toString();
     }
 
     @Override
