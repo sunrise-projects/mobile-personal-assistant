@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.text.method.ScrollingMovementMethod;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,6 +38,7 @@ import android.widget.Toast;
 import java.util.Locale;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -48,6 +51,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chit.myapplication.com.example.chit.myapplication.model.QuestionPackage;
 import com.example.chit.myapplication.com.example.chit.myapplication.model.WundergroundTask;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener, OnInitListener {
@@ -60,6 +64,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private MainActivity mySelf;
 
     private int voiceInitStatus = 1;
+    private boolean qaSession = false;
+    private QuestionPackage questionPackage = null;
 
     private TextView txtSpeechInput;
     private Button btnSpeak;
@@ -124,11 +130,80 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 //intent.setType("image/*");
                 intent.setType("*/*");
+                //intent.setType("text/plain");
                 startActivityForResult(intent, READ_REQUEST_CODE);
             }
         });
 
 
+        Button pickerQABtn = (Button)findViewById(R.id.pickerQABtn);
+        pickerQABtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                qaSession = true;
+
+                List<QuestionPackage> questions = new ArrayList<QuestionPackage>();
+
+                QuestionPackage q1 = new QuestionPackage();
+                q1.setQuestionText("What is your name");
+                q1.setQuestionAnswer("a");
+                HashMap<String,String> m1 = new HashMap<String, String>();
+                m1.put("a","john doe");
+                m1.put("b","jennifer gardner");
+                m1.put("c","jennifer lawrence");
+                q1.setQuestionChoices(m1);
+                q1.setQuestionExplanation("john doe is your name.");
+
+                questions.add(q1);
+
+                q1 = new QuestionPackage();
+                q1.setQuestionText("What is your last name");
+                q1.setQuestionAnswer("a");
+                m1 = new HashMap<String, String>();
+                m1.put("a","doe");
+                m1.put("b","gardner");
+                m1.put("c","lawrence");
+                q1.setQuestionChoices(m1);
+                q1.setQuestionExplanation("");
+                questions.add(q1);
+
+
+                for(QuestionPackage item : questions ) {
+                    questionPackage = item;
+                    loopUntilAnswered(item);
+                }
+
+
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onSupportActionModeStarted(ActionMode mode) {
+        super.onSupportActionModeStarted(mode);
+    }
+
+    private void loopUntilAnswered(QuestionPackage item) {
+        //int maxTimes = 3;
+        //for(int i=0;i<maxTimes;i++)  {
+            speakWordsQA(item.getQuestionText());
+            speakWordsQA(" Please select on the following. ");
+            for (Map.Entry<String, String> entry : item.getQuestionChoices().entrySet())
+            {
+                String key=entry.getKey();
+                String value=entry.getValue();
+                speakWordsQA(key+"."+" "+value);
+            }
+            int totalWait = item.getQuestionText().split(" ").length;
+            sleep(10);
+            //promptSpeechInput();
+            String ret = promptSpeechInputQA();
+
+
+        return;
     }
 
     @Override
@@ -149,11 +224,44 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
+    private void sleep(int delaySeconds) {
+        try {
+            Thread.sleep(delaySeconds*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    private String promptSpeechInputQA() {
+        //ACTION_VOICE_SEARCH_HANDS_FREE
+        //Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.speech_prompt));
+
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.speech_not_supported),
+                    Toast.LENGTH_SHORT).show();
+        }
+        return "111";
+    }
+
     /**
      * Showing google speech input dialog
      * */
     private void promptSpeechInput() {
+        //ACTION_VOICE_SEARCH_HANDS_FREE
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        //Intent intent = new Intent(RecognizerIntent.ACTION_VOICE_SEARCH_HANDS_FREE);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
@@ -209,6 +317,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     //speak the user text
+    private void speakWordsQA(String speech) {
+
+        //speak straight away
+        myTTS.speak(speech, TextToSpeech.QUEUE_ADD, null);
+    }
+    //speak the user text
     private void speakWords(String speech) {
 
         //speak straight away
@@ -242,19 +356,31 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     txtSpeechInput.setText(result.get(0));
 
-                    myTTS.speak(txtSpeechInput.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                    if(qaSession && !(questionPackage==null) ) {
+                        String answer = result.get(0).toLowerCase();
+                        if (answer.equalsIgnoreCase(questionPackage.getQuestionAnswer())) {
+                            speakWordsQA("Correct.");
+                        } else {
+                            speakWordsQA("Wrong answer.");
+                            //continue;
+                        }
+                    } else {
+                        qaSession = false;
 
-                    String textInput = result.get(0).toString();
-                    if(textInput.startsWith("what") && textInput.contains("time")) {
-                        speakWords(Utils.getCurrentTime());
-                    }
+                        myTTS.speak(txtSpeechInput.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
 
-                    if(textInput.startsWith("what") && textInput.contains("weather") && textInput.contains("today")) {
-                        new WundergroundTask.TodayForecast(myTTS).execute();
-                    }
+                        String textInput = result.get(0).toString();
+                        if (textInput.startsWith("what") && textInput.contains("time")) {
+                            speakWords(Utils.getCurrentTime());
+                        }
 
-                    if(textInput.startsWith("what") && textInput.contains("weather") && textInput.contains("week")) {
-                        new WundergroundTask.WeekForecast(myTTS).execute();
+                        if (textInput.startsWith("what") && textInput.contains("weather") && textInput.contains("today")) {
+                            new WundergroundTask.TodayForecast(myTTS).execute();
+                        }
+
+                        if (textInput.startsWith("what") && textInput.contains("weather") && textInput.contains("week")) {
+                            new WundergroundTask.WeekForecast(myTTS).execute();
+                        }
                     }
                 }
 

@@ -124,6 +124,14 @@
             android:layout_column="2"
             />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PickerQA"
+            android:id="@+id/pickerQABtn"
+            android:layout_column="3"
+            />
+
     </TableRow>
 
     <!-- just draw a  line -->
